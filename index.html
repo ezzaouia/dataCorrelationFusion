@@ -17,16 +17,16 @@
             </h3>
             <span flex></span>
             <!-- switcher start vs end checkpoint  -->
-            <md-switch ng-model="startEndSwitcher" ng-true-value="'START'" ng-false-value="'END'">
-                Check point: {{ startEndSwitcher }}
+            <md-switch ng-model="main.startEndSwitcher" ng-true-value="'START'" ng-false-value="'END'">
+                Check point: {{ main.startEndSwitcher }}
             </md-switch>
 
             <!-- session dropdown menu -->
             <md-input-container>
                 <label>Session:</label>
-                <md-select ng-model="selectedSpSessions" md-on-close="">
-                    <md-optgroup label="spSessions">
-                        <md-option ng-value="session" ng-repeat="session in ['one', 'twi']">{{session}}</md-option>
+                <md-select ng-model="main.selectedSpSessions" md-on-close="">
+                    <md-optgroup label="spSessions:">
+                        <md-option ng-value="session" ng-repeat="session in main.spSessions">{{session}}</md-option>
                     </md-optgroup>
                 </md-select>
             </md-input-container>
@@ -37,6 +37,8 @@
             </md-button>
         </div>
     </md-toolbar>
+
+    
 
     <!-- ng -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
