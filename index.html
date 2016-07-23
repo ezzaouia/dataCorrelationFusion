@@ -11,9 +11,31 @@
 <body ng-controller="MainCtrl as main">
 
     <md-toolbar>
-        <md-toolbar-tools>
-            <h3>Emoviz Data Corre. & Fusion</h3>
-        </md-toolbar-tools>
+        <div class="md-toolbar-tools">
+            <h3>
+                <span>Emoviz Data Corre. & Fusion</span>
+            </h3>
+            <span flex></span>
+            <!-- switcher start vs end checkpoint  -->
+            <md-switch ng-model="startEndSwitcher" ng-true-value="'START'" ng-false-value="'END'">
+                Check point: {{ startEndSwitcher }}
+            </md-switch>
+
+            <!-- session dropdown menu -->
+            <md-input-container>
+                <label>Session:</label>
+                <md-select ng-model="selectedSpSessions" md-on-close="">
+                    <md-optgroup label="spSessions">
+                        <md-option ng-value="session" ng-repeat="session in ['one', 'twi']">{{session}}</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+
+            <!-- apply filter button -->
+            <md-button class="md-raised" aria-label="">
+                Apply Filter
+            </md-button>
+        </div>
     </md-toolbar>
 
     <!-- ng -->
