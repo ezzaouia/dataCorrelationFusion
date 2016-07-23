@@ -4,6 +4,15 @@ header {
     padding: 10px;
 }
 
+#progressCircle {
+     bottom: 0; left: 0; top: 0; right: 0;
+    margin: auto;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+}
+
 #audioVideoContainer {
     padding: 10px;
     display: flex;
@@ -48,7 +57,7 @@ header {
 
 thead {
     display: table-header-group;
-/ / vertical-align: middle;
+// vertical-align: middle;
     border-color: inherit;
     text-align: left;
 }
@@ -69,7 +78,7 @@ thead {
 }
 
 .element:nth-child(2) {
-/ / flex: 1;
+// flex: 1;
 }
 
 .emoviz-selfreported-styles {

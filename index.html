@@ -6,6 +6,7 @@
 
     <!-- ngMaterial -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="styles.client.css">
 </head>
 
 <body ng-controller="MainCtrl as main">
@@ -20,7 +21,6 @@
             <md-switch ng-model="main.startEndSwitcher" ng-true-value="'START'" ng-false-value="'END'">
                 Check point: {{ main.startEndSwitcher }}
             </md-switch>
-
             <!-- session dropdown menu -->
             <md-input-container>
                 <label>Session:</label>
@@ -30,15 +30,43 @@
                     </md-optgroup>
                 </md-select>
             </md-input-container>
-
             <!-- apply filter button -->
-            <md-button class="md-raised" aria-label="">
+            <md-button class="md-raised" aria-label="" ng-click="main.applyFilter()">
                 Apply Filter
             </md-button>
         </div>
     </md-toolbar>
 
-    
+    <div id="progressCircle">
+        <md-progress-circular ng-hide="!main.activated" ng-disabled="!main.activated" class="md-hue-2" md-diameter="50px"></md-progress-circular>
+    </div>
+
+
+    <header>
+        <u>Self-Reported:</u>
+    </header>
+    <div id="selfReportedContainer" class="emoviz-selfreported-styles">
+        <div class="element">
+            MoodMap:
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.selfReportedMoodMapEmotions" check-point='startEndSwitcher' data="main.mood" change-handler="main.onMoodChange"></mood-map-chart>
+            </div>
+        </div>
+
+        <div class="element">
+            Discrete:
+            <discrete-emotions data="main.selfReportedDiscreteEmotions" ng-disabled="true">
+            </discrete-emotions>
+        </div>
+
+        <div class="element">
+            Projection:
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.selfReportedProjectedDiscreteEmotions" data="main.mood" check-point='main.startEndSwitcher' change-handler="main.onMoodChange"></mood-map-chart>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ng -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
