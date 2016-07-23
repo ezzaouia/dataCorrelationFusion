@@ -1,0 +1,237 @@
+/* Styles go here */
+
+header {
+    padding: 10px;
+}
+
+#audioVideoContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#audioVideoContainerColumnChart {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#videoContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#audioContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#videoContainerTab {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#audioContainerTab {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table {
+    width: 100%;
+}
+
+thead {
+    display: table-header-group;
+/ / vertical-align: middle;
+    border-color: inherit;
+    text-align: left;
+}
+
+#selfReportedContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#filterContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.element:nth-child(2) {
+/ / flex: 1;
+}
+
+.emoviz-selfreported-styles {
+
+    /* Styles go here */
+    /* conical image https://leaverou.github.io/conic-gradient/*/
+    /* http://img15.hostingpics.net/pics/43163359bg.png */
+    /* Creates a small triangle extender for the tooltip */
+    /* discrete emotions
+     * --------------------------- */
+    /* sidenav */
+}
+
+md-dialog.emoviz-selfreported-styles {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    /*width: 40px;*/
+    /*height: 15%;*/
+    padding: 2px;
+    font-size: 10px;
+    font-family: 'Open Sans', 'sans-serif';
+    background: #757575;
+    pointer-events: none;
+    border-radius: 2px;
+    color: #fff;
+    display: inline-block;
+    overflow: auto;
+}
+
+.emoviz-selfreported-styles #my-mood {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    color: inherit;
+}
+
+.emoviz-selfreported-styles .md-toolbar-text {
+    text-align: center;
+}
+
+.emoviz-selfreported-styles .svg-mood-map-chart {
+    /*background-image: url('../assets/img/bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;*/
+    /*border-radius: 50%;*/
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.emoviz-selfreported-styles .svg-mood-map-chart-reflection {
+    /*box-shadow: 5px 5px 5px #888888;*/
+}
+
+.emoviz-selfreported-styles svg text {
+    font-size: 10px;
+    font-family: 'Open Sans', 'sans-serif';
+}
+
+.emoviz-selfreported-styles .axis path,
+.emoviz-selfreported-styles .axis line {
+    fill: none;
+    stroke: #999;
+}
+
+.emoviz-selfreported-styles .y_axis path,
+.emoviz-selfreported-styles .y_axis line {
+    fill: none;
+    stroke: #999;
+}
+
+.emoviz-selfreported-styles .tick {
+    font-size: 10px;
+    font-family: 'Open Sans', 'sans-serif';
+}
+
+.emoviz-selfreported-styles div .chart {
+    width: 500px;
+}
+
+.emoviz-selfreported-styles .chart div {
+    font-size: 10px;
+    font-family: 'Open Sans', 'sans-serif';
+    background-color: #b6d7bb;
+    text-align: right;
+    padding: 6px;
+    margin: 1px;
+    /*color: white;*/
+}
+
+.emoviz-selfreported-styles .overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.emoviz-selfreported-styles .mood-map-chart-tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 15px;
+    margin-top: -10px;
+    font-size: 10px;
+    font-family: 'Open Sans', 'sans-serif';
+    background: #757575;
+    pointer-events: none;
+    border-radius: 2px;
+    color: #fff;
+}
+
+.emoviz-selfreported-styles .mood-map-chart-tooltip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: #757575;
+    content: "\25bc";
+    position: absolute;
+    text-align: center;
+    margin-left: -45px;
+    margin-top: 14px;
+}
+
+.emoviz-selfreported-styles .mood-map-chart-tooltip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+.emoviz-selfreported-styles .svg_chart_reflection {
+    background-color: aqua;
+}
+
+.emoviz-selfreported-styles .svg_chart_reflection {
+    background: #b0e0f8;
+    margin: 5px;
+}
+
+.emoviz-selfreported-styles .svg_chart_reflection rect {
+    stroke: white;
+    fill: steelblue;
+}
+
+.emoviz-selfreported-styles .svg_chart_reflection text {
+    fill: white;
+}
+
+.emoviz-selfreported-styles ._md-track-ticks canvas, .emoviz-selfreported-styles .md-track-ticks canvas {
+    display: none;
+}
+
+.emoviz-selfreported-styles .site-sidenav, .emoviz-selfreported-styles .site-sidenav.md-locked-open-add-active, .emoviz-selfreported-styles .site-sidenav.md-locked-open {
+    width: 400vw !important;
+    min-width: 200px !important;
+    max-width: 900px !important;
+}
+
+/*# sourceMappingURL=emoviz-selfreported.css.map */

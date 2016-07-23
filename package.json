@@ -1,0 +1,27 @@
+{
+  "name": "data-corre-fusion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezzaouia/dataCorrelationFusion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ezzaouia/dataCorrelationFusion/issues"
+  },
+  "homepage": "https://github.com/ezzaouia/dataCorrelationFusion#readme",
+  "devDependencies": {
+    "lite-server": "^2.2.2"
+  },
+  "dependencies": {
+    "angular-file-saver": "^1.1.2",
+    "lodash": "^3.10.1"
+  }
+}
