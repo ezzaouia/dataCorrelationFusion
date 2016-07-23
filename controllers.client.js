@@ -13,7 +13,7 @@ function MainCtrl($http) {
     this.spSessions = null;
 
     // init function 
-    let init = function () {
+    let loadJsonData = function () {
         // load self reported json data
         async.waterfall([
             function (callback) {
@@ -81,7 +81,7 @@ function MainCtrl($http) {
     };
 
     // call init
-    init();
+    loadJsonData();
 
 
 }
