@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
 </head>
 
-<body>
-    {{ 3 + 5 }}
+<body ng-controller="MainCtrl as main">
+    {{main.things}} {{main}}
 
     <!-- ng -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
@@ -21,6 +21,15 @@
     <!-- ngMaterial -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.0/angular-material-icons.min.js"></script>
+
+    <script data-require="d3js@*" data-semver="3.5.14" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
+    <script src="https://npmcdn.com/simple-statistics@2.0.0/dist/simple-statistics.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.8/md-data-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/line-chart/2.0.27/LineChart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
 
     <!-- local lib -->
     <script src="services.client.js"></script>

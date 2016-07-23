@@ -1,0 +1,572 @@
+{
+  "selfReported": [
+    {
+      "_id": {
+        "$oid": "57641e97df4b9521a6f4a5e9"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe6"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "SURPRISE",
+            "emotion_level": 1
+          },
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          },
+          {
+            "emotion_name": "NEUTRAL",
+            "emotion_level": 1
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-17T16:00:23.735+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576811b8df4b9521a6f4aa99"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-20T15:54:32.287+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "5768139bdf4b9521a6f4aad6"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0.9702330508474577,
+        "valence_level": -0.952542372881356,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-20T16:02:35.383+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "57681652df4b9521a6f4ab58"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-20T16:14:10.165+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "5768187ddf4b9521a6f4abb1"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "NEUTRAL",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-20T16:23:25.283+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "57681ac6df4b9521a6f4abf9"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "SURPRISE",
+            "emotion_level": 1
+          },
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-20T16:33:10.342+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576964cbdf4b9521a6f4b0d6"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-21T16:01:15.342+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576966c2df4b9521a6f4b142"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 1,
+        "valence_level": -0.5932203389830508,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-21T16:09:38.612+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576967dadf4b9521a6f4b165"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0.983792372881356,
+        "valence_level": -0.43728813559322033,
+        "discrete_emotions": []
+      },
+      "created": {
+        "$date": "2016-06-21T16:14:18.781+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576968d3df4b9521a6f4b1a4"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": []
+      },
+      "created": {
+        "$date": "2016-06-21T16:18:27.610+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576a8035df4b9521a6f4b2d5"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-22T12:10:29.282+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576a80bddf4b9521a6f4b30c"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe7"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-22T12:12:45.488+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576ab460df4b9521a6f4b3c8"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe8"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": []
+      },
+      "created": {
+        "$date": "2016-06-22T15:53:04.732+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576ab49fdf4b9521a6f4b3f3"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe8"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": []
+      },
+      "created": {
+        "$date": "2016-06-22T15:54:07.095+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "576d571a121f600eb8e3af87"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fe9"
+      },
+      "emotions": {
+        "arousal_level": 0.9770127118644067,
+        "valence_level": -0.8983050847457628,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-24T15:51:54.956+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "57701648121f600eb8e3b1e1"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4fea"
+      },
+      "emotions": {
+        "arousal_level": 0.983792372881356,
+        "valence_level": -0.010169491525423735,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-26T17:52:08.444+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "57714c23121f600eb8e3b6de"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "START",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4feb"
+      },
+      "emotions": {
+        "arousal_level": 0,
+        "valence_level": 0,
+        "discrete_emotions": [
+          {
+            "emotion_name": "HAPPINESS",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-27T15:54:11.477+0000"
+      },
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "577156dd121f600eb8e3b73e"
+      },
+      "learner": {
+        "$oid": "575e88bbf1a57a61252b4a33"
+      },
+      "coach": {
+        "$oid": "560844b067b8fad40981e1a4"
+      },
+      "pack": {
+        "$oid": "575edccef1a57a61252b4f47"
+      },
+      "check_point": "END",
+      "sp_session": {
+        "$oid": "575ef103f1a57a61252b4feb"
+      },
+      "emotions": {
+        "arousal_level": 1,
+        "valence_level": -1,
+        "discrete_emotions": [
+          {
+            "emotion_name": "SURPRISE",
+            "emotion_level": 100
+          }
+        ]
+      },
+      "created": {
+        "$date": "2016-06-27T16:39:57.511+0000"
+      },
+      "__v": 0
+    }
+  ]
+}
