@@ -19,3 +19,34 @@ filters.filter('round', function () {
         return Math.round(nbr);
     };
 });
+
+filters.filter('timeToStr', function () {
+    return function (date) {
+        var sec = date.getSeconds();
+        if (sec.toString().length == 1)
+            sec = '0' + sec.toString();
+        return date.getMinutes().toString() + ':' + sec;
+    };
+});
+
+filters.filter('timeToDate', function () {
+    return function (offset) {
+        return new Date(offset);
+    };
+});
+
+filters.filter('strToNumber', function () {
+    return function (str) {
+        return Number(str);
+    };
+});
+
+
+filters.filter('scale', function (d3) {
+    return function (nbr) {
+        var scale = d3.scale.linear();
+        scale.domain([ 0, 100 ]);
+        scale.range([ -100, 100 ]);
+        return scale(nbr);
+    };
+});

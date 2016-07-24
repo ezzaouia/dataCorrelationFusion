@@ -43,26 +43,39 @@
 
 
     <header>
-        <u>Self-Reported:</u>
+        <u>I) Self-Reported:</u>
     </header>
     <div id="selfReportedContainer" class="emoviz-selfreported-styles">
         <div class="element">
-            MoodMap:
+            <header>MoodMap:</header>
             <div id="mood-map-chart">
                 <mood-map-chart mood-points="main.selfReportedMoodMapEmotions" check-point='startEndSwitcher' data="main.mood" change-handler="main.onMoodChange"></mood-map-chart>
             </div>
         </div>
 
         <div class="element">
-            Discrete:
+            <header>Discrete:</header>
             <discrete-emotions data="main.selfReportedDiscreteEmotions" ng-disabled="true">
             </discrete-emotions>
         </div>
 
         <div class="element">
-            Projection:
+            <header>Projection:</header>
             <div id="mood-map-chart">
-                <mood-map-chart mood-points="main.selfReportedProjectedDiscreteEmotions" data="main.mood" check-point='main.startEndSwitcher' change-handler="main.onMoodChange"></mood-map-chart>
+                <mood-map-chart mood-points="main.selfReportedProjectedDiscreteEmotions" data="main.mood" check-point='main.startEndSwitcher'
+                    change-handler="main.onMoodChange"></mood-map-chart>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <u>II) Scatter plot valence/Arousal:</u>
+    </header>
+    <div id="audioVideoContainer" class="emoviz-selfreported-styles" ng-show="true">
+        <div class="element">
+            <header>Audio:</header>
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.audioEmotionsByTimeSegmentForMoodMap" data="main.mood" check-point="" change-handler=""></mood-map-chart>
             </div>
         </div>
     </div>

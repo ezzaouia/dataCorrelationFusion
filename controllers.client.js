@@ -3,7 +3,7 @@
 let controllers = angular.module('controllers.client', []);
 
 // controller definition goes here
-function MainCtrl($http, $mdToast, $log, $interval) {
+function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter) {
 
     let vm = this;
 
@@ -99,6 +99,9 @@ function MainCtrl($http, $mdToast, $log, $interval) {
 
         // get selfReported emotions from loaded data
         getSelfReportedEmotionsBySessionFromJsonData(vm.selfReportedEmotions, vm.selectedSpSessions);
+        // audio scatter plot
+        getAudioEmotionsByTimeSegment();
+        
         vm.activated = false;
     };
 
@@ -161,6 +164,7 @@ function MainCtrl($http, $mdToast, $log, $interval) {
         getSelfReportedProjectedDiscreteEmotions();
     }
 
+    // get projection of discrete emotions
     this.selfReportedProjectedDiscreteEmotions = [];
     let getSelfReportedProjectedDiscreteEmotions = function () {
         vm.selfReportedProjectedDiscreteEmotions = [];
@@ -179,6 +183,27 @@ function MainCtrl($http, $mdToast, $log, $interval) {
         }
     };
 
+    // get audio valence arousal
+    this.audioEmotionsByTimeSegmentForMoodMap = [];
+    let getAudioEmotionsByTimeSegment = function () {
+        var audioEmotions = _.where(vm.audioEmotions, { 'sp_session': { '$oid': vm.selectedSpSessions } });
+        audioEmotions = _.first(audioEmotions);
+        if (audioEmotions) {
+            vm.bShowTtable = true;
+            vm.jTotableAudioEmotions = _.get(audioEmotions, 'audio_emotion_scores');
+
+            _.forEach(vm.jTotableAudioEmotions.result.analysisSegments, function (sig) {
+                var from = sig.offset;
+                from = new Date(from);
+                from = timeToStrFilter(from);
+
+                var to = new Date(Number(sig.duration) + sig.offset);
+                to = timeToStrFilter(to);
+
+                vm.audioEmotionsByTimeSegmentForMoodMap.push([scaleFilter(sig.analysis.Valence.Value) / 100.00, scaleFilter(sig.analysis.Arousal.Value) / 100.00, '', from, to]);
+            });
+        }
+    }
 
     /**
      * Map projected points discrete emotions
