@@ -7,7 +7,8 @@
     <!-- ngMaterial -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.8/md-data-table.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.8/md-data-table.min.css"
+    />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-chart/2.0.27/LineChart.min.css" />
     <link rel="stylesheet" href="styles.client.css">
 </head>
@@ -130,7 +131,48 @@
     <header>
         <u>III) Audio Video Positive/Negative:</u>
     </header>
-    <div id="audioVideoContainerPosNeg"></div>
+    <div id="audioVideoContainerPosNeg">
+        <div class="element">
+            <header>Audio vs Video Valence:</header>
+            <table>
+                <tr>
+                    <td>n={{ main.valenceConfusionMatrix.N}}</td>
+                    <th>Video:<br/>Negative</th>
+                    <th>Video:<br/>Positive</th>
+                </tr>
+                <tr>
+                    <th>Audio:<br/>Negative</th>
+                    <td>TN = {{ main.valenceConfusionMatrix.TN}}</td>
+                    <td>FP = {{ main.valenceConfusionMatrix.FP}}</td>
+                </tr>
+                <th>Audio:<br/>Positive</th>
+                <td>FN ={{ main.valenceConfusionMatrix.FN}}</td>
+                <td>TP = {{ main.valenceConfusionMatrix.TP}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="element">
+            <header>Audio vs Video Arousal:</header>
+            <table>
+                <tr>
+                    <td>n={{ main.arousalConfusionMatrix.N}}</td>
+                    <th>Video:<br/>Negative</th>
+                    <th>Video:<br/>Positive</th>
+                </tr>
+                <tr>
+                    <th>Audio:<br/>Negative</th>
+                    <td>TN = {{ main.arousalConfusionMatrix.TN}}</td>
+                    <td>FP = {{ main.arousalConfusionMatrix.FP}}</td>
+                </tr>
+                <th>Audio:<br/>Positive</th>
+                <td>FN ={{ main.arousalConfusionMatrix.FN}}</td>
+                <td>TP = {{ main.arousalConfusionMatrix.TP}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
 
     <header>
         <u>IV) Audio Video Line Chart:</u>
@@ -144,8 +186,7 @@
 
     </div>
 
-
-
+    </div>
     <!-- ng -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script data-require="angular.js@1.4.8" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular.js"></script>

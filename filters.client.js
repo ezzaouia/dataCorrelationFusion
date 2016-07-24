@@ -153,6 +153,110 @@ filters.filter('normalizeVector', function () {
     };
 });
 
+filters.filter('audioValenceArousalPosNegMapper', function () {
+    return function (object) {
+        return {
+            valence: _.get(valenceArousalAsPosNeg, object.analysis.Valence.Group),
+            arousal: _.get(valenceArousalAsPosNeg, object.analysis.Arousal.Group)
+        };
+    };
+});
+
+filters.filter('emotionSum', function () {
+    return function (screenshotsBySeg) {
+        let emotionSum = {
+            "SURPRISE": 0,
+            "SADNESS": 0,
+            "NEUTRAL": 0,
+            "HAPPINESS": 0,
+            "FEAR": 0,
+            "DISGUST": 0,
+            "CONTEMPT": 0,
+            "ANGER": 0
+        };
+        _.forEach(screenshotsBySeg, function (screenshotItem) {
+            _.forEach(screenshotItem.scores, function (val, key) {
+                emotionSum[key.toUpperCase()] += val;
+            });
+        });
+
+        emotionSum = _.mapValues(emotionSum, function (val) {
+            return val / _.size(screenshotsBySeg);
+        });
+
+        return emotionSum;
+    };
+});
+
+filters.filter('emotionSumGroup', function () {
+    return function (emotionSum) {
+        let valenceNeg = (emotionSum['ANGER'] + emotionSum['FEAR'] + emotionSum['SADNESS'] + emotionSum['CONTEMPT'] + emotionSum['DISGUST']);
+        let valencePos = (emotionSum['HAPPINESS'] + emotionSum['NEUTRAL'] + emotionSum['SURPRISE']);
+
+        let arousalPos = emotionSum['ANGER'] + emotionSum['FEAR'];//+ emotionSum['CONTEMPT'];
+        let arousalNeg = emotionSum['SADNESS'] + emotionSum['DISGUST'];
+
+        return {
+            valence: (valencePos >= valenceNeg) ? 1 : 0,
+            arousal: (arousalPos >= arousalNeg) ? 1 : 0
+        };
+    };
+});
+
+filters.filter('videoValenceArousalPosNeg', function () {
+    return function (imageScores) {
+        // group emotion by pos/neg
+        let neutral = _.pick(imageScores, ['neutral']);
+        let posValence = _.pick(imageScores, ['happiness', 'surprise', 'neutral']);
+        let negValence = _.pick(imageScores, ['sadness', 'disgust', 'contempt', 'fear', 'anger']);
+
+        let posArousal = _.pick(imageScores, ['anger', 'fear']);
+        let negArousal = _.pick(imageScores, ['sadness', 'disgust', 'neutral']);
+
+        let posVal = _propPaisWiseArgmax(posValence)[1];
+        let negVal = _propPaisWiseArgmax(negValence)[1];
+
+        let posArou = _propPaisWiseArgmax(posArousal)[1];
+        let negArou = _propPaisWiseArgmax(negArousal)[1];
+
+        //console.log('====', { valence: (posVal >= negVal) ? 1 : 0, arousal: (posArou >= negArou) ? 1 : 0 });
+        
+        return { valence: (posVal >= negVal) ? 1 : 0, arousal: (posArou >= negArou) ? 1 : 0 };
+    };
+})
+
+filters.filter('videoValenceArousalPosNegCombiner', function (videoValenceArousalPosNegFilter) {
+    return function (screenshotsBySeg) {
+        let valencePos = 0;
+        let valenceNeg = 0;
+        let arousalPos = 0;
+        let arousalNeg = 0;
+        _.forEach(screenshotsBySeg, function (image) {
+            let object  = videoValenceArousalPosNegFilter(image.scores);
+            if (object.valence == 1) { valencePos++; }
+            if (object.valence == 0) { valenceNeg++; }
+            
+            if (object.arousal == 1) { arousalPos++; }
+            if (object.arousal == 0) { arousalNeg++; }
+            //console.log('==', object);
+            
+        })
+
+        console.log('=======', valencePos, valenceNeg);
+        
+        return { valence: (valencePos >= valenceNeg) ? 1 : 0, arousal: (arousalPos >= arousalNeg) ? 1 : 0 };
+    };
+})
+
+
+let valenceArousalAsPosNeg = {
+    'positive': 1,
+    'negative': 0,
+    'neutral': 1,
+    'low': 0,
+    'high': 1
+};
+
 
 // helpers methods
 // ---------------

@@ -5,7 +5,8 @@ let controllers = angular.module('controllers.client', []);
 // controller definition goes here
 function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter,
     valenceArousalAsAvgMaxPosMaxNegFilter, imageScoresWeightedMeanFilter, argmaxEmotionFilter,
-    valenceArousalSegmentMeanFilter, valenceArousalSegmentDomEmotionWeightedMeanFilter) {
+    valenceArousalSegmentMeanFilter, valenceArousalSegmentDomEmotionWeightedMeanFilter,
+    audioValenceArousalPosNegMapperFilter, emotionSumFilter, emotionSumGroupFilter, videoValenceArousalPosNegCombinerFilter) {
 
     let vm = this;
 
@@ -14,6 +15,13 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     this.selfReportedEmotions = null;
     this.spSessions = null;
     this.startEndSwitcher = 'START';
+
+    this.audioVideoLineChartData = {
+        dataset0AsVideoAvg: [],
+        dataset1AsVideoWMAl: [],
+        dataset2AsVideoDomWM: [],
+        dataset3AsAudio: []
+    };
 
     // init function 
     let loadJsonData = function () {
@@ -93,6 +101,13 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     // apply filter
     this.applyFilter = function () {
         vm.activated = true;
+
+        vm.audioVideoLineChartData = {
+            dataset0AsVideoAvg: [],
+            dataset1AsVideoWMAl: [],
+            dataset2AsVideoDomWM: [],
+            dataset3AsAudio: []
+        };
         // check if a session is selected 
         if (!vm.selectedSpSessions) {
             vm.showSimpleToast('Please select a session!');
@@ -194,6 +209,7 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     vm.jTotableAudioEmotions = [];
     vm.selectedAudioEmotions = [];
     let getAudioEmotionsByTimeSegment = function () {
+        vm.audioEmotionsByTimeSegmentForMoodMap = [];
         vm.selectedAudioEmotions = _.where(vm.audioEmotions, { 'sp_session': { '$oid': vm.selectedSpSessions } });
         vm.selectedAudioEmotions = _.first(vm.selectedAudioEmotions);
         if (vm.selectedAudioEmotions) {
@@ -226,7 +242,7 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         // get screenshot by time segment
         // for here we can flatten theme to plot the scatter 
         // and reuse theme for line chart later
-        let screenshotsByAudioTimeSegment = _getScreenshotsByAudioTimeSegment(vm.selectedAudioEmotions, 4, vm.selectedVideoEmotions);
+        let screenshotsByAudioTimeSegment = _getScreenshotsByAudioTimeSegment(vm.selectedAudioEmotions, 4, vm.selectedVideoEmotions, _.get(vm.selectedVideoEmotions, 'sp_session.$oid'));
 
         // video valence & arousal as Avg formula
         let videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = mapScreenshotsScoresToValenceArousalAsAvgPosNegFormula(screenshotsByAudioTimeSegment);
@@ -265,8 +281,6 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         });
 
         // I'll use the objects already computed to plot line chart
-
-
         vm.audioVideoLineChartData = {
             dataset0AsVideoAvg: _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, videoLineChartDataMapper),
             dataset1AsVideoWMAl: _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, videoLineChartDataMapper),
@@ -274,9 +288,30 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
             dataset3AsAudio: _.map(vm.audioEmotionsByTimeSegmentForMoodMap, audioLineChartDataMapper)
         };
 
-        $log.info('audioVideoLineChartData', videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean)
+        // get audio video pos/neg
+        // audio
+        let audioValenceArousalPosNeg = _.map(vm.jTotableAudioEmotions.result.analysisSegments, audioValenceArousalPosNegMapperFilter);
+        // video
+        let videoValenceArousalPosNeg = _.map(screenshotsByAudioTimeSegment, videoValenceArousalPosNegCombinerFilter);
+        //videoValenceArousalPosNeg = _.map(videoValenceArousalPosNeg, emotionSumGroupFilter);
+        
+        vm.valenceConfusionMatrix = compteConfusionMatrix(_.pluck(audioValenceArousalPosNeg, 'valence'), _.pluck(videoValenceArousalPosNeg, 'valence'));
+        vm.arousalConfusionMatrix = compteConfusionMatrix(_.pluck(audioValenceArousalPosNeg, 'arousal'), _.pluck(videoValenceArousalPosNeg, 'arousal'));
 
+        $log.info('videoValenceArousalPosNeg', vm.compteConfusionMatrix);
     };
+
+
+    function compteConfusionMatrix(audioBinaryArray, videoBinaryArray) {
+        let confusionMatrix = { 'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0 , 'N': _.size(audioBinaryArray) };
+        _.forEach(audioBinaryArray, function (val, index) {
+            if (val === 1 && val === videoBinaryArray[index]) { confusionMatrix.TP++; }
+            if (val === 0 && val === videoBinaryArray[index]) { confusionMatrix.TN++; }
+            if (val === 1 && val !== videoBinaryArray[index]) { confusionMatrix.FP++; }
+            if (val === 0 && val !== videoBinaryArray[index]) { confusionMatrix.FN++; }
+        });
+        return confusionMatrix;
+    }
 
     function videoLineChartDataMapper(object, index) {
         return { x: index, valence: _.get(object, 'valence') * 100, arousal: _.get(object, 'arousal') * 100 };
@@ -286,12 +321,6 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         return { x: index, valence: array[0] * 100, arousal: array[1] * 100 };
     }
 
-    this.audioVideoLineChartData = {
-        dataset0AsVideoAvg: [],
-        dataset1AsVideoWMAl: [],
-        dataset2AsVideoDomWM: [],
-        dataset3AsAudio: []
-    };
 
     this.audioVideoLineChartOptions = {
         series: [
@@ -420,15 +449,19 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     function _getScreenshotsByAudioTimeSegment(audioEmotions, interval, videoEmotions, spSession) {
         videoEmotions = _.get(videoEmotions, 'video_emotion_scores');
         audioEmotions = _.get(audioEmotions, 'audio_emotion_scores');
-
+        console.log('spSession', spSession)
         let screenshotBySegs = {};
         _.forEach(videoEmotions, function (vItem) {
 
             // compute screenshot time position
             // get screenshot number
+            let screenshotTimePosition = null;
             let screenshotNbr = Number(vItem['screenshot'].slice(10).replace('-cropped.jpg', ''));
-            //let screenshotTimePosition = ((screenshotNbr * interval) - interval) * 1000;
-            let screenshotTimePosition = screenshotNbr * 1000 / 4;
+            if (spSession == '575ef103f1a57a61252b4feb') {
+                screenshotTimePosition = ((screenshotNbr * (1 / 4)) - (1 / 4)) * 1000;
+            } else {
+                screenshotTimePosition = ((screenshotNbr * interval) - interval) * 1000;
+            }
 
             _.forEach(audioEmotions.result.analysisSegments, function (oItem, index) {
                 let oSegsTimeEnd = _.last(audioEmotions.result.analysisSegments).offset + _.last(audioEmotions.result.analysisSegments).duration;
