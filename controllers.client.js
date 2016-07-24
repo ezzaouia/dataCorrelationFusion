@@ -3,7 +3,7 @@
 let controllers = angular.module('controllers.client', []);
 
 // controller definition goes here
-function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter) {
+function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter, valenceArousalAsAvgMaxPosMaxNegFilter) {
 
     let vm = this;
 
@@ -97,11 +97,13 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
             return;
         }
 
-        // get selfReported emotions from loaded data
+        /** get selfReported emotions from loaded data */
         getSelfReportedEmotionsBySessionFromJsonData(vm.selfReportedEmotions, vm.selectedSpSessions);
-        // audio scatter plot
+        /** audio scatter plot */
         getAudioEmotionsByTimeSegment();
-        
+        /** video scatter plot */
+        getVideoEmotionsByTimeSegment();
+
         vm.activated = false;
     };
 
@@ -165,6 +167,7 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     }
 
     // get projection of discrete emotions
+    // -----------------------------------
     this.selfReportedProjectedDiscreteEmotions = [];
     let getSelfReportedProjectedDiscreteEmotions = function () {
         vm.selfReportedProjectedDiscreteEmotions = [];
@@ -184,13 +187,16 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
     };
 
     // get audio valence arousal
+    // -------------------------
     this.audioEmotionsByTimeSegmentForMoodMap = [];
+    vm.jTotableAudioEmotions = [];
+    vm.selectedAudioEmotions = [];
     let getAudioEmotionsByTimeSegment = function () {
-        var audioEmotions = _.where(vm.audioEmotions, { 'sp_session': { '$oid': vm.selectedSpSessions } });
-        audioEmotions = _.first(audioEmotions);
-        if (audioEmotions) {
+        vm.selectedAudioEmotions = _.where(vm.audioEmotions, { 'sp_session': { '$oid': vm.selectedSpSessions } });
+        vm.selectedAudioEmotions = _.first(vm.selectedAudioEmotions);
+        if (vm.selectedAudioEmotions) {
             vm.bShowTtable = true;
-            vm.jTotableAudioEmotions = _.get(audioEmotions, 'audio_emotion_scores');
+            vm.jTotableAudioEmotions = _.get(vm.selectedAudioEmotions, 'audio_emotion_scores');
 
             _.forEach(vm.jTotableAudioEmotions.result.analysisSegments, function (sig) {
                 var from = sig.offset;
@@ -203,6 +209,93 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
                 vm.audioEmotionsByTimeSegmentForMoodMap.push([scaleFilter(sig.analysis.Valence.Value) / 100.00, scaleFilter(sig.analysis.Arousal.Value) / 100.00, '', from, to]);
             });
         }
+    };
+
+    // get video valence arousal
+    // -------------------------
+    this.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = [];
+    this.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula = [];
+    this.selectedVideoEmotions = [];
+    let getVideoEmotionsByTimeSegment = function () {
+        vm.selectedVideoEmotions = _.where(vm.videoEmotions, { 'sp_session': { '$oid': vm.selectedSpSessions } });
+        vm.selectedVideoEmotions = _.first(vm.selectedVideoEmotions);
+
+        // get screenshot by time segment
+        // for here we can flatten theme to plot the scatter 
+        // and reuse theme for line chart later
+        let screenshotsByAudioTimeSegment = _getScreenshotsByAudioTimeSegment(vm.selectedAudioEmotions, 4, vm.selectedVideoEmotions);
+
+        // video valence & arousal as Avg formula
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = mapScreenshotsScoresToValenceArousalAsAvgPosNegFormula(screenshotsByAudioTimeSegment);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = _.map(_.flatten(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula), function (bag) {
+            return _.values(bag);
+        });
+
+        // video valence & arousal as Vec. Coor. weighed mean for all scores of each screenshot
+
+        // video valence & arousal as Vec. Coor. for the dominate emotion
+
+
+        // if (vm.selectedVideoEmotions) {
+        //     vm.videoEmotionsByAudioTimeSegmentForMoodMap = _.map(videoemotions.video_emotion_scores, function (item) {
+        //         let _max = _propPaisWiseArgmax(item.scores);
+        //         let matchedValenceArousal = _.where(valenceArousalMappingTable, { 'emotion_name': _max[0] });
+        //         return [_.first(_.pluck(matchedValenceArousal, 'valence')) / 100.00, _.first(_.pluck(matchedValenceArousal, 'arousal')) / 100.00].concat(_max);
+        //     });
+        // }
+    };
+
+    function mapScreenshotsScoresToValenceArousalAsAvgPosNegFormula(screenshotsByAudioTimeSegment) {
+        let screenshotsScoresToValenceArousalAsAvgPosNegFormula = [];
+        _.forEach(screenshotsByAudioTimeSegment, function (imagesBag) {
+            let _imagesBag = [];
+            _.forEach(imagesBag, function (image) {
+
+                _imagesBag.push(_.extend({}, {
+                    valence: scaleFilter(_.get(valenceArousalAsAvgMaxPosMaxNegFilter(image.scores), 'valence') * 100) / 100,
+                    arousal: scaleFilter(_.get(valenceArousalAsAvgMaxPosMaxNegFilter(image.scores), 'arousal') * 100) / 100,
+                }, { image: image.screenshot }));
+            });
+
+            screenshotsScoresToValenceArousalAsAvgPosNegFormula.push(_imagesBag);
+        });
+
+        return screenshotsScoresToValenceArousalAsAvgPosNegFormula;
+    }
+
+    function _getScreenshotsByAudioTimeSegment(audioEmotions, interval, videoEmotions, spSession) {
+        videoEmotions = _.get(videoEmotions, 'video_emotion_scores');
+        audioEmotions = _.get(audioEmotions, 'audio_emotion_scores');
+
+        let screenshotBySegs = {};
+        _.forEach(videoEmotions, function (vItem) {
+
+            // compute screenshot time position
+            // get screenshot number
+            let screenshotNbr = Number(vItem['screenshot'].slice(10).replace('-cropped.jpg', ''));
+            //let screenshotTimePosition = ((screenshotNbr * interval) - interval) * 1000;
+            let screenshotTimePosition = screenshotNbr * 1000 / 4;
+
+            _.forEach(audioEmotions.result.analysisSegments, function (oItem, index) {
+                let oSegsTimeEnd = _.last(audioEmotions.result.analysisSegments).offset + _.last(audioEmotions.result.analysisSegments).duration;
+                let oSegsTimeStart = _.first(audioEmotions.result.analysisSegments).offset;
+                let oSegTimeEnd = oItem.offset + oItem.duration;
+                let oSegTimeStart = oItem.offset;
+
+                if (screenshotTimePosition <= oSegsTimeStart) {
+                    (screenshotBySegs[0] = (screenshotBySegs[0] || [])).push(vItem);
+                    return false;
+                }
+                if (screenshotTimePosition >= oSegsTimeEnd) {
+                    (screenshotBySegs[_.size(audioEmotions.result.analysisSegments) - 1] = (screenshotBySegs[_.size(audioEmotions.result.analysisSegments) - 1] || [])).push(vItem);
+                    return false;
+                } else if (screenshotTimePosition >= oSegTimeStart && screenshotTimePosition <= oSegTimeEnd) {
+                    (screenshotBySegs[index] = (screenshotBySegs[index] || [])).push(vItem);
+                    return false;
+                }
+            });
+        });
+        return screenshotBySegs;
     }
 
     /**
