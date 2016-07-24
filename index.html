@@ -88,16 +88,42 @@
         <div class="element">
             <header>Video Vec Coor. al.:</header>
             <div id="mood-map-chart">
-                <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula" data="main.mood" check-point="" change-handler=""></mood-map-chart>
+                <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula" data="main.mood"
+                    check-point="" change-handler=""></mood-map-chart>
             </div>
         </div>
-        <div class="element">
+        <!--<div class="element">
             <header>Video Vec Coor. Dom.:</header>
             <div id="mood-map-chart">
                 <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula" data="main.mood" check-point="" change-handler=""></mood-map-chart>
             </div>
+        </div>-->
+    </div>
+
+    <div id="audioVideoContainerMean" class="emoviz-selfreported-styles" ng-show="true">
+        <div class="element">
+            <header>Dom. Wgt. Mean / Audio Seg.:</header>
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean" data="main.mood"
+                    check-point="" change-handler=""></mood-map-chart>
+            </div>
+        </div>
+        <div class="element">
+            <header>Mean / Audio Seg.:</header>
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean" data="main.mood" check-point=""
+                    change-handler=""></mood-map-chart>
+            </div>
+        </div>
+        <div class="element">
+            <header>Mean / Audio Seg.:</header>
+            <div id="mood-map-chart">
+                <mood-map-chart mood-points="main.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean" data="main.mood"
+                    check-point="" change-handler=""></mood-map-chart>
+            </div>
         </div>
     </div>
+
 
 
     <!-- ng -->

@@ -98,7 +98,7 @@ filters.filter('argmaxEmotion', function (propPaisWiseArgmaxFilter, valenceArous
         valenceArousal = _.mapValues(valenceArousal, function (val) {
             return val / 100;
         });
-        return valenceArousal;
+        return _.extend({}, valenceArousal, { 'weight': propPaisWiseArgmaxFilter(scoresObject)[1] });
     };
 });
 
@@ -114,6 +114,42 @@ filters.filter('propPaisWiseArgmax', function () {
 filters.filter('valenceArousalMapper', function () {
     return function (emotionKey) {
         return _.first(_.where(valenceArousalMappingTable, { 'emotion_name': emotionKey.toUpperCase() }));
+    };
+});
+
+filters.filter('valenceArousalSegmentMean', function () {
+    return function (arrayObject) {
+        let mean = { valence: 0, arousal: 0 };
+        _.forEach(arrayObject, function (object) {
+            mean['valence'] += _.get(object, 'valence');
+            mean['arousal'] += _.get(object, 'arousal');
+        });
+
+        mean['valence'] /= _.size(arrayObject);
+        mean['arousal'] /= _.size(arrayObject);
+
+        return mean;
+    };
+});
+
+filters.filter('valenceArousalSegmentDomEmotionWeightedMean', function (normalizeVectorFilter) {
+    return function (bagValenceArousalWeight) {
+        let normalWeights = normalizeVectorFilter(_.pluck(bagValenceArousalWeight, 'weight'));
+        let mean = { valence: 0, arousal: 0 };
+        _.forEach(bagValenceArousalWeight, function (object, index) {
+            mean['valence'] += _.get(object, 'valence') * normalWeights[index];
+            mean['arousal'] += _.get(object, 'arousal') * normalWeights[index];
+        });
+
+        return mean;
+    };
+});
+
+filters.filter('normalizeVector', function () {
+    return function (vector) {
+        return _.map(vector, function (nbr) {
+            return nbr / _.sum(vector);
+        });
     };
 });
 

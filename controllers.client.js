@@ -3,8 +3,9 @@
 let controllers = angular.module('controllers.client', []);
 
 // controller definition goes here
-function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter, 
-        valenceArousalAsAvgMaxPosMaxNegFilter, imageScoresWeightedMeanFilter, argmaxEmotionFilter) {
+function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter,
+    valenceArousalAsAvgMaxPosMaxNegFilter, imageScoresWeightedMeanFilter, argmaxEmotionFilter,
+    valenceArousalSegmentMeanFilter, valenceArousalSegmentDomEmotionWeightedMeanFilter) {
 
     let vm = this;
 
@@ -104,8 +105,6 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         getAudioEmotionsByTimeSegment();
         /** video scatter plot */
         getVideoEmotionsByTimeSegment();
-
-        vm.activated = false;
     };
 
 
@@ -228,32 +227,43 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         let screenshotsByAudioTimeSegment = _getScreenshotsByAudioTimeSegment(vm.selectedAudioEmotions, 4, vm.selectedVideoEmotions);
 
         // video valence & arousal as Avg formula
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = mapScreenshotsScoresToValenceArousalAsAvgPosNegFormula(screenshotsByAudioTimeSegment);
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = _.map(_.flatten(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula), function (bag) {
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = mapScreenshotsScoresToValenceArousalAsAvgPosNegFormula(screenshotsByAudioTimeSegment);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula), function (bag) {
             return _.values(bag);
         });
 
         // video valence & arousal as Vec. Coor. weighed mean for all scores of each screenshot
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula = mapScreenshotsScoresToValenceArousalAsVecCoorWMForEachEmotionFormula(screenshotsByAudioTimeSegment);
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula = _.map(_.flatten(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula), function (bag) {
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula = mapScreenshotsScoresToValenceArousalAsVecCoorWMForEachEmotionFormula(screenshotsByAudioTimeSegment);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula), function (bag) {
             return _.values(bag);
         });
 
         // video valence & arousal as Vec. Coor. for the dominate emotion
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula = mapScreenshotsScoresToValenceArousalAsVecCoorDomEmotionForEachImageFormula(screenshotsByAudioTimeSegment);
-        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula = _.map(_.flatten(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula), function (bag) {
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula = mapScreenshotsScoresToValenceArousalAsVecCoorDomEmotionForEachImageFormula(screenshotsByAudioTimeSegment);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula), function (bag) {
+            return _.values(_.pick(bag, ['valence', 'arousal', 'screenshot']));
+        });
+
+        // video valence & arousal as Avg formula Mean by segment
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean = _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula, valenceArousalSegmentMeanFilter);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean), function (bag) {
             return _.values(bag);
-        }); 
+        });
 
-        $log.info('videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula', vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula)
+        // video valence & arousal as Vec. Coor. weighed mean for all scores of each screenshot Mean
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean = _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormula, valenceArousalSegmentMeanFilter);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean), function (bag) {
+            return _.values(bag);
+        });
 
-        // if (vm.selectedVideoEmotions) {
-        //     vm.videoEmotionsByAudioTimeSegmentForMoodMap = _.map(videoemotions.video_emotion_scores, function (item) {
-        //         let _max = _propPaisWiseArgmax(item.scores);
-        //         let matchedValenceArousal = _.where(valenceArousalMappingTable, { 'emotion_name': _max[0] });
-        //         return [_.first(_.pluck(matchedValenceArousal, 'valence')) / 100.00, _.first(_.pluck(matchedValenceArousal, 'arousal')) / 100.00].concat(_max);
-        //     });
-        // }
+        // video valence & arousal as Vec. Coor. for the dominate emotion Mean by segment
+        let videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean = _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormula, valenceArousalSegmentDomEmotionWeightedMeanFilter);
+        vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean), function (bag) {
+            return _.values(bag);
+        });
+
+        $log.info('videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean', videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean)
+        vm.activated = false;
     };
 
     function mapScreenshotsScoresToValenceArousalAsVecCoorWMForEachEmotionFormula(screenshotsByAudioTimeSegment) {
