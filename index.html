@@ -150,6 +150,7 @@
                 <td>TP = {{ main.valenceConfusionMatrix.TP}}</td>
                 </tr>
             </table>
+            Coor. : {{  (main.valenceConfusionMatrix.TP +  main.valenceConfusionMatrix.TN) / main.valenceConfusionMatrix.N | round}}
         </div>
 
         <div class="element">
@@ -170,6 +171,7 @@
                 <td>TP = {{ main.arousalConfusionMatrix.TP}}</td>
                 </tr>
             </table>
+            Coor. : {{  (main.arousalConfusionMatrix.TP +  main.arousalConfusionMatrix.TN) / main.arousalConfusionMatrix.N | round}}
         </div>
 
     </div>
