@@ -105,6 +105,8 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         getAudioEmotionsByTimeSegment();
         /** video scatter plot */
         getVideoEmotionsByTimeSegment();
+
+        vm.activated = false;
     };
 
 
@@ -262,8 +264,111 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
             return _.values(bag);
         });
 
-        $log.info('videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean', videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean)
-        vm.activated = false;
+        // I'll use the objects already computed to plot line chart
+
+
+        vm.audioVideoLineChartData = {
+            dataset0AsVideoAvg: _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, videoLineChartDataMapper),
+            dataset1AsVideoWMAl: _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, videoLineChartDataMapper),
+            dataset2AsVideoDomWM: _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, videoLineChartDataMapper),
+            dataset3AsAudio: _.map(vm.audioEmotionsByTimeSegmentForMoodMap, audioLineChartDataMapper)
+        };
+
+        $log.info('audioVideoLineChartData', videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean)
+
+    };
+
+    function videoLineChartDataMapper(object, index) {
+        return { x: index, valence: _.get(object, 'valence') * 100, arousal: _.get(object, 'arousal') * 100 };
+    }
+
+    function audioLineChartDataMapper(array, index) {
+        return { x: index, valence: array[0] * 100, arousal: array[1] * 100 };
+    }
+
+    this.audioVideoLineChartData = {
+        dataset0AsVideoAvg: [],
+        dataset1AsVideoWMAl: [],
+        dataset2AsVideoDomWM: [],
+        dataset3AsAudio: []
+    };
+
+    this.audioVideoLineChartOptions = {
+        series: [
+            {
+                axis: "y",
+                dataset: "dataset3AsAudio",
+                key: "valence",
+                label: "Audio Valence",
+                color: "#827717",
+                type: ['line', 'dot'],
+                id: 'mySeries0'
+            },
+            {
+                axis: "y",
+                dataset: "dataset3AsAudio",
+                key: "arousal",
+                label: "Audio Arousal",
+                color: "#2962FF",
+                type: ['line', 'dot'],
+                id: 'mySeries1'
+            },
+            {
+                axis: "y",
+                dataset: "dataset0AsVideoAvg",
+                key: "valence",
+                label: "Video Val. Avg.",
+                color: "#EF6C00",
+                type: ['line', 'dot'],
+                id: 'mySeries2'
+            },
+            {
+                axis: "y",
+                dataset: "dataset0AsVideoAvg",
+                key: "arousal",
+                label: "Video Aro. Avg.",
+                color: "#6200EA",
+                type: ['line', 'dot'],
+                id: 'mySeries3'
+            },
+            {
+                axis: "y",
+                dataset: "dataset1AsVideoWMAl",
+                key: "valence",
+                label: "Video Val. WMAl.",
+                color: "#1B5E20",
+                type: ['line', 'dot'],
+                id: 'mySeries4'
+            },
+            {
+                axis: "y",
+                dataset: "dataset1AsVideoWMAl",
+                key: "arousal",
+                label: "Video Aro. WMAl.",
+                color: "#607D8B",
+                type: ['line', 'dot'],
+                id: 'mySeries5'
+            },
+            {
+                axis: "y",
+                dataset: "dataset2AsVideoDomWM",
+                key: "valence",
+                label: "Video Val. DomWM.",
+                color: "#795548",
+                type: ['line', 'dot'],
+                id: 'mySeries6'
+            },
+            {
+                axis: "y",
+                dataset: "dataset2AsVideoDomWM",
+                key: "arousal",
+                label: "Video Aro. DomWM.",
+                color: "#DD2C00",
+                type: ['line', 'dot'],
+                id: 'mySeries7'
+            }
+        ],
+        axes: { x: { key: "x" } }
     };
 
     function mapScreenshotsScoresToValenceArousalAsVecCoorWMForEachEmotionFormula(screenshotsByAudioTimeSegment) {
@@ -346,6 +451,8 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         });
         return screenshotBySegs;
     }
+
+
 
     /**
      * Map projected points discrete emotions

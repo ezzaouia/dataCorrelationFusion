@@ -5,7 +5,10 @@
     <title>Data Correlation & fusion</title>
 
     <!-- ngMaterial -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.8/md-data-table.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-chart/2.0.27/LineChart.min.css" />
     <link rel="stylesheet" href="styles.client.css">
 </head>
 
@@ -124,6 +127,23 @@
         </div>
     </div>
 
+    <header>
+        <u>III) Audio Video Positive/Negative:</u>
+    </header>
+    <div id="audioVideoContainerPosNeg"></div>
+
+    <header>
+        <u>IV) Audio Video Line Chart:</u>
+    </header>
+    <div id="audioVideoContainerLineChart">
+        <div class="element">
+            <div class="my-chart" style="height: 300px">
+                <linechart data="main.audioVideoLineChartData" options="main.audioVideoLineChartOptions"></linechart>
+            </div>
+        </div>
+
+    </div>
+
 
 
     <!-- ng -->
@@ -145,6 +165,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.8/md-data-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/line-chart/2.0.27/LineChart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
+    <script src="./node_modules/angular-file-saver/dist/angular-file-saver.bundle.min.js"></script>
 
     <!-- local lib -->
     <script src="services.client.js"></script>
