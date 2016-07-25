@@ -300,48 +300,48 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
 
         // save valence arousal
         // audio
-        let audioValence = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
-            return array[0];
-        });
-        let audioArousal = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
-            return array[1];
-        });
-        // saving
-        saveAsFile(audioValence, 'audioValence-');
-        saveAsFile(audioArousal, 'audioArousal-');
+        // let audioValence = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
+        //     return array[0];
+        // });
+        // let audioArousal = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
+        //     return array[1];
+        // });
+        // // saving
+        // saveAsFile(audioValence, 'audioValence-');
+        // saveAsFile(audioArousal, 'audioArousal-');
 
-        // video Avg
-        let videoValenceAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
-            return array[0];
-        });
-        let videoArousalAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
-            return array[1];
-        });
-        saveAsFile(videoValenceAvg, 'videoValenceAvg-');
-        saveAsFile(videoArousalAvg, 'videoArousalAvg-');
+        // // video Avg
+        // let videoValenceAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
+        //     return array[0];
+        // });
+        // let videoArousalAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
+        //     return array[1];
+        // });
+        // saveAsFile(videoValenceAvg, 'videoValenceAvg-');
+        // saveAsFile(videoArousalAvg, 'videoArousalAvg-');
 
-        // video W.M. Al.
-        let videoValenceWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
-            return array[0];
-        });
-        let videoArousalWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
-            return array[1];
-        });
-        saveAsFile(videoValenceWMAl, 'videoValenceWMAl-');
-        saveAsFile(videoArousalWMAl, 'videoArousalWMAl-');
+        // // video W.M. Al.
+        // let videoValenceWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
+        //     return array[0];
+        // });
+        // let videoArousalWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
+        //     return array[1];
+        // });
+        // saveAsFile(videoValenceWMAl, 'videoValenceWMAl-');
+        // saveAsFile(videoArousalWMAl, 'videoArousalWMAl-');
 
-        // video Dom.
-        let videoValenceDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
-            return array[0];
-        });
-        let videoArousalDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
-            return array[1];
-        });
-        saveAsFile(videoValenceDom, 'videoValenceDom-');
-        saveAsFile(videoArousalDom, 'videoArousalDom-');
+        // // video Dom.
+        // let videoValenceDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
+        //     return array[0];
+        // });
+        // let videoArousalDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
+        //     return array[1];
+        // });
+        // saveAsFile(videoValenceDom, 'videoValenceDom-');
+        // saveAsFile(videoArousalDom, 'videoArousalDom-');
 
 
-        $log.info('audioValence', audioValence);
+        $log.info('audioValence');
     };
 
 
