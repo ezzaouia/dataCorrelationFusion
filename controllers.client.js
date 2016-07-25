@@ -3,7 +3,7 @@
 let controllers = angular.module('controllers.client', []);
 
 // controller definition goes here
-function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter,
+function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter, FileSaver, Blob,
     valenceArousalAsAvgMaxPosMaxNegFilter, imageScoresWeightedMeanFilter, argmaxEmotionFilter,
     valenceArousalSegmentMeanFilter, valenceArousalSegmentDomEmotionWeightedMeanFilter,
     audioValenceArousalPosNegMapperFilter, emotionSumFilter, emotionSumGroupFilter, videoValenceArousalPosNegCombinerFilter) {
@@ -262,7 +262,7 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
             return _.values(_.pick(bag, ['valence', 'arousal', 'screenshot']));
         });
 
-        // video valence & arousal as Avg formula Mean by segment
+        // video valence & arousal as Avg formula Mean by segment Mean
         let videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean = _.map(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormula, valenceArousalSegmentMeanFilter);
         vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean = _.map(_.flatten(videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean), function (bag) {
             return _.values(bag);
@@ -294,16 +294,59 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         // video
         let videoValenceArousalPosNeg = _.map(screenshotsByAudioTimeSegment, videoValenceArousalPosNegCombinerFilter);
         //videoValenceArousalPosNeg = _.map(videoValenceArousalPosNeg, emotionSumGroupFilter);
-        
+
         vm.valenceConfusionMatrix = compteConfusionMatrix(_.pluck(audioValenceArousalPosNeg, 'valence'), _.pluck(videoValenceArousalPosNeg, 'valence'));
         vm.arousalConfusionMatrix = compteConfusionMatrix(_.pluck(audioValenceArousalPosNeg, 'arousal'), _.pluck(videoValenceArousalPosNeg, 'arousal'));
 
-        $log.info('videoValenceArousalPosNeg', vm.compteConfusionMatrix);
+        // save valence arousal
+        // audio
+        let audioValence = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
+            return array[0];
+        });
+        let audioArousal = _.map(vm.audioEmotionsByTimeSegmentForMoodMap, function (array) {
+            return array[1];
+        });
+        // saving
+        saveAsFile(audioValence, 'audioValence-');
+        saveAsFile(audioArousal, 'audioArousal-');
+
+        // video Avg
+        let videoValenceAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
+            return array[0];
+        });
+        let videoArousalAvg = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsAvgPosNegFormulaMean, function (array) {
+            return array[1];
+        });
+        saveAsFile(videoValenceAvg, 'videoValenceAvg-');
+        saveAsFile(videoArousalAvg, 'videoArousalAvg-');
+
+        // video W.M. Al.
+        let videoValenceWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
+            return array[0];
+        });
+        let videoArousalWMAl = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorWMForEachEmotionFormulaMean, function (array) {
+            return array[1];
+        });
+        saveAsFile(videoValenceWMAl, 'videoValenceWMAl-');
+        saveAsFile(videoArousalWMAl, 'videoArousalWMAl-');
+
+        // video Dom.
+        let videoValenceDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
+            return array[0];
+        });
+        let videoArousalDom = _.map(vm.videoEmotionsByAudioTimeSegmentForMoodMapAsVecCoorDomEmotionForEachImageFormulaMean, function (array) {
+            return array[1];
+        });
+        saveAsFile(videoValenceDom, 'videoValenceDom-');
+        saveAsFile(videoArousalDom, 'videoArousalDom-');
+
+
+        $log.info('audioValence', audioValence);
     };
 
 
     function compteConfusionMatrix(audioBinaryArray, videoBinaryArray) {
-        let confusionMatrix = { 'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0 , 'N': _.size(audioBinaryArray) };
+        let confusionMatrix = { 'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0, 'N': _.size(audioBinaryArray) };
         _.forEach(audioBinaryArray, function (val, index) {
             if (val === 1 && val === videoBinaryArray[index]) { confusionMatrix.TP++; }
             if (val === 0 && val === videoBinaryArray[index]) { confusionMatrix.TN++; }
@@ -610,6 +653,14 @@ function MainCtrl($http, $mdToast, $log, $interval, scaleFilter, timeToStrFilter
         yValue: 0,
         bMoodMapClicked: false
     };
+
+    function saveAsFile(arrayData, nameOfFile) {
+        let data = new Blob([arrayData.join(',')], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(data, nameOfFile + vm.selectedSpSessions + '.txt');
+    }
 }
+
+
+
 
 controllers.controller('MainCtrl', MainCtrl);

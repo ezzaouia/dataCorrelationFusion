@@ -10,6 +10,8 @@ filters.filter('capitalize', function () {
 
 filters.filter('abs', function () {
     return function (number) {
+        if (isNaN(number)) return 0;
+
         return Math.abs(number);
     };
 });
@@ -242,8 +244,6 @@ filters.filter('videoValenceArousalPosNegCombiner', function (videoValenceArousa
             
         })
 
-        console.log('=======', valencePos, valenceNeg);
-        
         return { valence: (valencePos >= valenceNeg) ? 1 : 0, arousal: (arousalPos >= arousalNeg) ? 1 : 0 };
     };
 })
